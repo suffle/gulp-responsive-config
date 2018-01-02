@@ -6,6 +6,13 @@ var globby = require('globby');
 var dimensions = require('parse-image-dimensions');
 
 var filepathRegex = '(?:\\([ ]*)*(?:\'|\"|\\(|\\s)((?!\\s)[ a-z0-9_@\\-\\/\\.]{2,}\\.';
+var formats = {
+    '.jpg': 'jpeg',
+    '.jpeg':'jpeg',
+    '.png': 'png',
+    '.webp': 'webp',
+    '.tiff': 'raw'
+}
 
 
 module.exports = function responsiveConfig(patterns, opts) {
@@ -19,6 +26,7 @@ module.exports = function responsiveConfig(patterns, opts) {
   sources.forEach(function(source) {
     var content = fs.readFileSync(source, {encoding: 'utf8'});
     var result;
+
     while ((result = regex.exec(content))) {
       imagePaths.push(result[1]);
     }
@@ -28,7 +36,7 @@ module.exports = function responsiveConfig(patterns, opts) {
     var extname = path.extname(imagePath);
     var basename = path.basename(imagePath, extname);
     var dirname = opts.fullPath ? path.dirname(imagePath) : '';
-    
+
     var imageDimensions = dimensions(basename);
     var width;
     var height;
@@ -50,10 +58,11 @@ module.exports = function responsiveConfig(patterns, opts) {
     }
 
     return {
-      name: path.join(dirname, imageDimensions.name + extname),
+      name: path.join(dirname, imageDimensions.name + '.*'),
       width: width,
       height: height,
-      rename: path.join(dirname, basename + extname)
+      rename: path.join(dirname, basename + extname),
+      format: formats[extname]
     };
   });
 
