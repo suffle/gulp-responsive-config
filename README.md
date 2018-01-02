@@ -1,5 +1,7 @@
 # gulp-responsive-config
 
+This is a fork of https://github.com/mahnunchik/gulp-responsive-config which adds the possibility to get the images in other formats. Just use the extension of the format you want and it will be set in the config. This one is not perfect because it breaks if you have two images with the same name but different extensions.
+
 > `gulp-responsive-config` helps to generate `gulp-responsive` configuration from existiong HTML and CSS files.
 
 * [gulp-responsive](https://www.npmjs.com/package/gulp-responsive)
